@@ -15,11 +15,11 @@ def get_user():
     name = request.args.get('name', '')
     conn = get_db()
     cur = conn.cursor()
-    cur.execute("SELECT * FROM users WHERE name = '" + name + "'")
+    cur.execute("SELECT * FROM users WHERE name = %s", (name,))
     row = cur.fetchone()
     if row:
         return {"id": row[0], "name": row[1]}
     return {"error": "User not found"}, 404
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
